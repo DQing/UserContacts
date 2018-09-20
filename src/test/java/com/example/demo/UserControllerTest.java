@@ -18,6 +18,7 @@ import java.util.List;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -53,5 +54,20 @@ class UserControllerTest {
                 .andExpect(jsonPath("$.contacts[1].name").value("wang wu"))
                 .andExpect(status().isCreated());
         assertEquals(2,UserStorage.findUserById(5).getContacts().size());
+    }
+
+    @Test
+    void should_get_user_contacts() throws Exception {
+        setupData();
+        mockMvc.perform(get("/api/users/5/contacts"))
+                .andExpect(jsonPath("$.id").value(5))
+                .andExpect(jsonPath("$.contacts", hasSize(1)))
+                .andExpect(jsonPath("$.contacts[0].id").value(1))
+                .andExpect(jsonPath("$.contacts[0].name").value("zhang san"))
+                .andExpect(jsonPath("$.contacts[0].age").value(18))
+                .andExpect(jsonPath("$.contacts[0].gender").value("male"))
+                .andExpect(jsonPath("$.contacts[0].phoneNumber").value("15829342367"))
+                .andExpect(status().isOk());
+
     }
 }

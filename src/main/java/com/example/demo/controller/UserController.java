@@ -19,4 +19,9 @@ public class UserController {
         User user = userRepository.addContactById(id, contact);
         return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
+
+    @GetMapping("/users/{id}/contacts")
+    User getUserContact(@PathVariable long id) {
+        return userRepository.findUserById(id);
+    }
 }
