@@ -43,15 +43,15 @@ class UserControllerTest {
     @Test
     void should_create_contact_for_user() throws Exception {
         setupData();
-        Contact contact = new Contact(2, "wang wu", 28, "female", "12829342367");
+        Contact contact = new Contact(3, "wang wu", 28, "female", "12829342367");
         mockMvc.perform(post("/api/users/5/contacts")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(new ObjectMapper().writeValueAsString(contact)))
                 .andExpect(jsonPath("$.id").value("5"))
-                .andExpect(jsonPath("$.contacts",hasSize(2)))
-                .andExpect(jsonPath("$.contacts[1].name").value("wang wu"))
+                .andExpect(jsonPath("$.contacts",hasSize(3)))
+                .andExpect(jsonPath("$.contacts[2].name").value("wang wu"))
                 .andExpect(status().isCreated());
-        assertEquals(2,UserStorage.findUserById(5).getContacts().size());
+        assertEquals(3,UserStorage.findUserById(5).getContacts().size());
     }
 
     @Test
@@ -59,7 +59,7 @@ class UserControllerTest {
         setupData();
         mockMvc.perform(get("/api/users/5/contacts"))
                 .andExpect(jsonPath("$.id").value(5))
-                .andExpect(jsonPath("$.contacts", hasSize(1)))
+                .andExpect(jsonPath("$.contacts", hasSize(2)))
                 .andExpect(jsonPath("$.contacts[0].id").value(1))
                 .andExpect(jsonPath("$.contacts[0].name").value("zhang san"))
                 .andExpect(jsonPath("$.contacts[0].age").value(18))
@@ -89,7 +89,7 @@ class UserControllerTest {
         setupData();
         mockMvc.perform(delete("/api/users/5/contacts/1"))
                 .andExpect(status().isNoContent());
-        assertEquals(0,UserStorage.findUserById(5).getContacts().size());
+        assertEquals(1,UserStorage.findUserById(5).getContacts().size());
     }
 
     @Test
