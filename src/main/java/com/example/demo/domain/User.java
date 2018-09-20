@@ -28,4 +28,7 @@ public class User {
         return contacts;
     }
 
+    public void setContacts(ArrayList<Contact> contacts) {
+        this.contacts = contacts;
+    }
 }

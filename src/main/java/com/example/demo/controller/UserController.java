@@ -29,4 +29,11 @@ public class UserController {
     User updateUserContact(@PathVariable long id, @RequestBody Contact contact) {
         return userRepository.updateContactByUserId(id, contact);
     }
+
+    @DeleteMapping("/users/{userId}/contacts/{contactId}")
+    ResponseEntity deleteUserContract(@PathVariable long userId, @PathVariable long contactId) {
+        System.out.println("-----------" + userId);
+        userRepository.deleteContactByUserId(userId, contactId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }

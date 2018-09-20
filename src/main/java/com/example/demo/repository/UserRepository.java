@@ -10,4 +10,6 @@ public interface UserRepository {
     User addContactById(long id, Contact contact);
 
     User updateContactByUserId(long id, Contact contact);
+
+    void deleteContactByUserId(long userId, long contactId);
 }

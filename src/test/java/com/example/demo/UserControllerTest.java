@@ -10,17 +10,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
@@ -85,5 +79,13 @@ class UserControllerTest {
                 .andExpect(jsonPath("$.contacts[0].age").value(20))
                 .andExpect(jsonPath("$.contacts[0].gender").value("female"))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    void should_delete_user_contact() throws Exception{
+        setupData();
+        mockMvc.perform(delete("/api/users/5/contacts/1"))
+                .andExpect(status().isNoContent());
+        assertEquals(0,UserStorage.findUserById(5).getContacts().size());
     }
 }

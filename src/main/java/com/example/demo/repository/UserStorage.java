@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class UserStorage {
 
@@ -47,5 +48,14 @@ public class UserStorage {
              item.setPhoneNumber(contact.getPhoneNumber());
          });
         return USERS.get(id);
+    }
+
+    public static void deleteContactByUserId(long userId, long contactId) {
+        ArrayList<Contact> collect = USERS.get(userId).getContacts().stream()
+                .filter(contact -> contact.getId() != contactId)
+                .collect(ArrayList::new,
+                        ArrayList::add,
+                        ArrayList::addAll);
+        USERS.get(userId).setContacts(collect);
     }
 }
