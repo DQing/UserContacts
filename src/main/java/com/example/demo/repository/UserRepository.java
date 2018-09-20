@@ -8,4 +8,6 @@ public interface UserRepository {
     User findUserById(long id);
 
     User addContactById(long id, Contact contact);
+
+    User updateContactByUserId(long id, Contact contact);
 }

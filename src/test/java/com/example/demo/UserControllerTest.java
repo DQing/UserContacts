@@ -20,6 +20,7 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
@@ -69,5 +70,20 @@ class UserControllerTest {
                 .andExpect(jsonPath("$.contacts[0].phoneNumber").value("15829342367"))
                 .andExpect(status().isOk());
 
+    }
+
+    @Test
+    void should_update_user_contacts() throws Exception{
+        setupData();
+        Contact contact = new Contact(1, "zhang san", 20, "female", "15829342367");
+        mockMvc.perform(put("/api/users/5/contacts")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(new ObjectMapper().writeValueAsString(contact)))
+                .andExpect(jsonPath("$.id").value(5))
+                .andExpect(jsonPath("$.contacts[0].id").value(1))
+                .andExpect(jsonPath("$.contacts[0].name").value("zhang san"))
+                .andExpect(jsonPath("$.contacts[0].age").value(20))
+                .andExpect(jsonPath("$.contacts[0].gender").value("female"))
+                .andExpect(status().isOk());
     }
 }

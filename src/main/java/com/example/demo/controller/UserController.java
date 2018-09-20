@@ -24,4 +24,9 @@ public class UserController {
     User getUserContact(@PathVariable long id) {
         return userRepository.findUserById(id);
     }
+
+    @PutMapping("/users/{id}/contacts")
+    User updateUserContact(@PathVariable long id, @RequestBody Contact contact) {
+        return userRepository.updateContactByUserId(id, contact);
+    }
 }

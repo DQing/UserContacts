@@ -37,4 +37,15 @@ public class UserStorage {
             USERS.put(person.getId(), person);
         });
     }
+
+    public static User updateContactByUserId(long id, Contact contact) {
+         USERS.get(id).getContacts().forEach(item -> {
+             item.setId(contact.getId());
+             item.setAge(contact.getAge());
+             item.setGender(contact.getGender());
+             item.setName(contact.getName());
+             item.setPhoneNumber(contact.getPhoneNumber());
+         });
+        return USERS.get(id);
+    }
 }
