@@ -32,8 +32,12 @@ public class UserController {
 
     @DeleteMapping("/users/{userId}/contacts/{contactId}")
     ResponseEntity deleteUserContract(@PathVariable long userId, @PathVariable long contactId) {
-        System.out.println("-----------" + userId);
         userRepository.deleteContactByUserId(userId, contactId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping("/users/contacts")
+    Contact getUserContact(@RequestParam String userName, @RequestParam String contactName) {
+        return userRepository.findContactByUserNameAndContactName(userName, contactName);
     }
 }

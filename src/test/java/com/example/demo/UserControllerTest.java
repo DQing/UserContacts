@@ -30,11 +30,14 @@ class UserControllerTest {
     }
 
     private void setupData() {
-        Contact contact = new Contact(1, "zhang san", 18, "male", "15829342367");
+        Contact contact1 = new Contact(1, "zhang san", 18, "male", "15829342367");
+        Contact contact2 = new Contact(2, "xiao hong", 28, "female", "13329342367");
         ArrayList<Contact> contacts = new ArrayList<>();
-        contacts.add(contact);
-        User user = new User(5,"dou qingqing", contacts);
-        UserStorage.addUser(user);
+        contacts.add(contact1);
+        contacts.add(contact2);
+        User user1 = new User(5,"dou qingqing", contacts);
+        User user2 = new User(3,"huang lizheng", contacts);
+        UserStorage.addUser(user1, user2);
     }
 
     @Test
@@ -87,5 +90,18 @@ class UserControllerTest {
         mockMvc.perform(delete("/api/users/5/contacts/1"))
                 .andExpect(status().isNoContent());
         assertEquals(0,UserStorage.findUserById(5).getContacts().size());
+    }
+
+    @Test
+    void should_get_user_contact() throws Exception {
+        setupData();
+        mockMvc.perform(get("/api/users/contacts")
+                .param("userName", "dou qingqing")
+                .param("contactName", "xiao hong"))
+                .andExpect(jsonPath("$.id").value(2))
+                .andExpect(jsonPath("$.name").value("xiao hong"))
+                .andExpect(jsonPath("$.age").value("28"))
+                .andExpect(jsonPath("$.gender").value("female"))
+                .andExpect(status().isOk());
     }
 }

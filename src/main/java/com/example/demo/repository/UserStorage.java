@@ -58,4 +58,18 @@ public class UserStorage {
                         ArrayList::addAll);
         USERS.get(userId).setContacts(collect);
     }
+
+    public static Contact findContactByUserNameAndContactName(String userName, String contactName) {
+        HashMap<String, Contact> contactHashMap = new HashMap<>();
+        USERS.forEach((id,user) ->{
+            if (user.getName().equals(userName)) {
+                user.getContacts().forEach(item -> {
+                    if (item.getName().equals(contactName)) {
+                        contactHashMap.put(contactName, item);
+                    }
+                });
+            }
+        });
+        return contactHashMap.get(contactName);
+    }
 }
