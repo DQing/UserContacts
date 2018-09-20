@@ -37,7 +37,7 @@ class UserControllerTest {
         Contact contact = new Contact(1, "zhang san", 18, "male", "15829342367");
         ArrayList<Contact> contacts = new ArrayList<>();
         contacts.add(contact);
-        User user = new User(1,"dou qingqing", contacts);
+        User user = new User(5,"dou qingqing", contacts);
         UserStorage.addUser(user);
     }
 
@@ -45,12 +45,13 @@ class UserControllerTest {
     void should_create_contact_for_user() throws Exception {
         setupData();
         Contact contact = new Contact(2, "wang wu", 28, "female", "12829342367");
-        mockMvc.perform(post("/api/users/1/contacts")
+        mockMvc.perform(post("/api/users/5/contacts")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(new ObjectMapper().writeValueAsString(contact)))
-                .andExpect(jsonPath("$.id").value("1"))
+                .andExpect(jsonPath("$.id").value("5"))
                 .andExpect(jsonPath("$.contacts",hasSize(2)))
+                .andExpect(jsonPath("$.contacts[1].name").value("wang wu"))
                 .andExpect(status().isCreated());
-        assertEquals(2,UserStorage.findUserById(1).getContacts().size());
+        assertEquals(2,UserStorage.findUserById(5).getContacts().size());
     }
 }
