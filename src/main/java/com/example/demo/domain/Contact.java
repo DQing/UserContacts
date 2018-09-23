@@ -1,24 +1,26 @@
 package com.example.demo.domain;
 
 public class Contact {
-    private int id;
+    private long id;
     private String name;
     private int age;
     private String gender;
     private String phoneNumber;
+    private long userId;
 
     public Contact() {
     }
 
-    public Contact(int id, String name, int age, String gender, String phoneNumber) {
+    public Contact(long id, String name, int age, String gender, String phoneNumber, long userId) {
         this.id = id;
         this.name = name;
         this.age = age;
         this.gender = gender;
         this.phoneNumber = phoneNumber;
+        this.userId = userId;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
@@ -26,7 +28,7 @@ public class Contact {
         return name;
     }
 
-    public int getAge() {
+    public long getAge() {
         return age;
     }
 
@@ -38,23 +40,7 @@ public class Contact {
         return phoneNumber;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+    public long getUserId() {
+        return userId;
     }
 }
